@@ -1,0 +1,19 @@
+scripts:
+  runserver: uvicorn src.main:app --reload
+  install: venv/bin/python -m pip install -r requirements.txt
+  test: pytest src/tests.py
+  build: docker build -f Dockerfile -t serverless-py .
+  run: docker run --env-file .env-prod -p 8000:8000 --rm --name serverless-py -it serverless-py
+  build_run: 
+    - rav run build 
+    - rav run run
+  configure: 
+    - gcloud auth configure-docker northamerica-northeast2-docker.pkg.dev
+    - gcloud artifacts repositories create serverless-py-repo --project=serverless-py-407716 --repository-format=docker --location=northamerica-northeast2
+  push: 
+    - docker build -f Dockerfile -t serverless-py .
+    - docker tag serverless-py northamerica-northeast2-docker.pkg.dev/serverless-py-407716/serverless-py-repo/serverless-py:3.11.7-slim
+    - docker tag serverless-py northamerica-northeast2-docker.pkg.dev/serverless-py-407716/serverless-py-repo/serverless-py:latest
+    - docker push northamerica-northeast2-docker.pkg.dev/serverless-py-407716/serverless-py-repo/serverless-py --all-tags
+  deploy:
+    - gcloud run deploy serverless-py-run --image=northamerica-northeast2-docker.pkg.dev/serverless-py-407716/serverless-py-repo/serverless-py:latest --allow-unauthenticated --region=northamerica-northeast2 --project=serverless-py-407716
