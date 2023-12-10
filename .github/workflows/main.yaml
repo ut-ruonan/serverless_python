@@ -37,7 +37,7 @@ jobs:
       - name: Authenticate to Google Cloud
         uses: 'google-github-actions/auth@v2'
         with:
-          credential_json: '${{secret.GOOGLE_CRENDITALS}}'
+          credential_json: '${{secrets.GOOGLE_CREDENITALS}}'
       - name: Build container image
         run: |
             docker build -f Dockerfile -t serverless-py .    
