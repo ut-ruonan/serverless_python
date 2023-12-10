@@ -48,7 +48,7 @@ jobs:
             docker push ${{secrets.CONTAINER_IMAGE_URL}} --all-tags
       - name: Deploy container to cloud run 
         run: |
-          gcloud run deploy serverless-py-runs \
+          gcloud run deploy serverless-py-run \
           --image=${{secrets.CONTAINER_IMAGE_URL}}:latest \
           --allow-unauthenticated \
           --region=${{secrets.GCLOUD_REGION}} \
