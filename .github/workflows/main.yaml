@@ -43,6 +43,7 @@ jobs:
         run: |
             docker build -f Dockerfile -t serverless-py .    
             docker tag serverless-py ${{secrets.CONTAINER_IMAGE_URL}}:latest
+            gcloud auth configure-docker ${{secrets.GCLOUD_REGION}}-docker.pkg.dev
             docker push ${{secrets.CONTAINER_IMAGE_URL}} --all-tags
       - name: Deploy container to cloud run 
         run: |
