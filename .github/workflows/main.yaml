@@ -36,5 +36,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
       - name: Build container image
         run: |
-            docker build -f Dockerfile -t serverless-py . 
-            
+            docker build -f Dockerfile -t serverless-py .    
+            docker tag serverless-py northamerica-northeast2-docker.pkg.dev/serverless-py-407716/serverless-py-repo/serverless-py:latest
+            docker push northamerica-northeast2-docker.pkg.dev/serverless-py-407716/serverless-py-repo/serverless-py --all-tags
+
