@@ -19,3 +19,7 @@ scripts:
     - docker push northamerica-northeast2-docker.pkg.dev/serverless-py-407716/serverless-py-repo/serverless-py --all-tags
   deploy:
     - gcloud run deploy serverless-py-run --image=northamerica-northeast2-docker.pkg.dev/serverless-py-407716/serverless-py-repo/serverless-py:latest --allow-unauthenticated --region=northamerica-northeast2 --project=serverless-py-407716
+  cloud_run_perms:
+    - gcloud secrets add-iam-policy-binding py_env_file --member='serviceAccount:683629413472-compute@developer.gserviceaccount.com' --role='roles/secretmanager.secretAccessor'
+  cloud_run_perms_remove:
+      - gcloud secrets remove-iam-policy-binding py_env_file --member='serviceAccount:683629413472-compute@developer.gserviceaccount.com' --role='roles/secretmanager.secretAccessor'
