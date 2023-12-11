@@ -4,6 +4,8 @@ scripts:
   test: pytest src/tests.py
   build: docker build -f Dockerfile -t serverless-py .
   run: docker run --env-file .env-prod -p 8000:8000 --rm --name serverless-py -it serverless-py
+  update_prod_secrets:
+    - gcloud secrets versions add py_env_file --data-file .env-prod
   build_run: 
     - rav run build 
     - rav run run
